@@ -5,9 +5,7 @@ const mongoose = require("mongoose");
 const Order = require("./Order");
 const amqp = require("amqplib");
 const isAuthenticated = require("../isAuthenticated");
-
 var channel, connection;
-
 mongoose.connect(
     "mongodb+srv://bipin7giri:IRLouttbnPzptFnk@cluster0.2d9ffmd.mongodb.net/order-service",
     {
@@ -48,7 +46,7 @@ connect().then(() => {
         channel.ack(data);
         channel.sendToQueue(
             "EMAIL",
-            Buffer.from(JSON.stringify({ newOrder, userEmail }))
+            Buffer.from(JSON.stringify({ newOrder, userEmail, products }))
         );
         channel.sendToQueue(
             "PRODUCT",
